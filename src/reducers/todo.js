@@ -1,3 +1,4 @@
+import { createAction } from "redux-actions";
 import {
   getTodos,
   createTodo,
@@ -15,15 +16,28 @@ export const TODO_REPLACE = "TODO_REPLACE";
 export const TODO_REMOVE = "TODO_REMOVE";
 export const TODO_ADD = "TODO_ADD";
 export const TODOS_LOAD = "TODOS_LOAD";
+const SHOW_LOADER = "SHOW_LOADER";
+const HIDE_LOADER = "HIDE_LOADER";
+/**
+ * Action creator Methods
+ */
+// export const updateCurrent = val => ({ type: CURRENT_UPDATE, payload: val });
+// Flux standard Action- Action must have a type and may have a payload property, can also have an error key - a boolean value
+// indicating if payload is error, meta key -> not part of payload
+export const updateCurrent = createAction(CURRENT_UPDATE);
+export const loadTodos = createAction(TODOS_LOAD);
+export const addTodo = createAction(TODO_ADD);
+export const replaceTodo = createAction(TODO_REPLACE);
+export const removeTodo = createAction(TODO_REMOVE);
+export const showLoader = createAction(SHOW_LOADER, () => true);
+export const hideLoader = createAction(HIDE_LOADER, () => true);
 
-export const updateCurrent = val => ({ type: CURRENT_UPDATE, payload: val });
-export const loadTodos = todos => ({ type: TODOS_LOAD, payload: todos });
-export const addTodo = todo => ({ type: TODO_ADD, payload: todo });
-export const replaceTodo = todo => ({ type: TODO_REPLACE, payload: todo });
-export const removeTodo = id => ({ type: TODO_REMOVE, payload: id });
+/**
+ * Redux Thunk Methods
+ */
 export const fetchTodos = () => {
   return dispatch => {
-    dispatch(showMessage("Loading Todos"));
+    dispatch(showLoader());
     getTodos().then(todos => dispatch(loadTodos(todos)));
   };
 };
@@ -31,6 +45,8 @@ export const fetchTodos = () => {
 export const saveTodo = name => {
   return dispatch => {
     dispatch(showMessage("Saving Todo"));
+    dispatch(showLoader());
+
     createTodo(name).then(todo => dispatch(addTodo(todo)));
   };
 };
@@ -86,6 +102,8 @@ export default (state = initState, action) => {
           p => (p.id === action.payload.id ? action.payload : p)
         )
       };
+    case SHOW_LOADER:
+      return { ...state, isLoading: action.payload };
     default:
       return state;
   }

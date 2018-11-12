@@ -5,12 +5,14 @@ import Footer from "./components/Footer";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 import Message from "./components/Message";
+import Loader from "./components/Loader";
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <Message />
+        <Loader />
         <Router>
           <div className="Todo-App">
             <TodoForm />

@@ -24,6 +24,11 @@
       "id": 5,
       "name": "update records",
       "isComplete": true
+    },
+    {
+      "name": "Hello from Redux",
+      "isComplete": false,
+      "id": 6
     }
   ]
 }

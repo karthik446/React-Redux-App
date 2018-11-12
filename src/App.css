@@ -82,3 +82,11 @@ a {
   padding-left: 2px;
   padding-right: 2px;
 }
+.loader {
+  /* align: center; */
+  width: 50px;
+  left: 50%;
+  margin-left: -25px;
+  top: 195px;
+  position: absolute;
+}
